@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/07/17 15:07:54 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/07/18 15:31:38 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,29 @@
 # include <pthread.h>
 # include <stddef.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <sys/time.h>
+# include <time.h>
 # include <unistd.h>
 
 typedef struct s_args
 {
-	size_t	nbr_p;
-	size_t	time_to_die;
-	size_t	time_to_eat;
-	size_t	time_to_sleep;
-	size_t	nbr_time;
-}			t_args;
+	int	nbr_p;
+	int	time_to_die;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	nbr_time;
+	int	i;
+	int	*tab_philo1;
+	int	*tab_philo2;
+}		t_args;
+
+/* main.c */
+void	init_args(t_args *args, char **argv, int nb_args);
+void	*action_routine(void *args);
 
 /* utils.c */
-int			ft_atoi(char *str);
-int			printf_action(int timestamp, int number_philo, char *str);
+int		ft_atoi(char *str);
+int		printf_action(int timestamp, int number_philo, char *str);
+void	fill_tab(t_args *args);
 #endif
