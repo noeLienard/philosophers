@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/07/18 15:40:33 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/07/20 16:55:33 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ void	init_args(t_args *args, char **argv, int nb_args)
 	if (nb_args == 6)
 		args->nbr_time = ft_atoi(argv[4]);
 }
+
+// void ft_monitor(t_args *args)
+// {
+	
+// }
 
 void	*action_routine(void *args)
 {
@@ -63,9 +68,14 @@ void	*action_routine(void *args)
 void	create_threads(t_args *args)
 {
 	pthread_t	tid;
+	int i;
 
-	pthread_create(&tid, NULL, action_routine, args);
-	pthread_join(tid, NULL);
+	i = 0;
+	while (i++ < args->nbr_p)
+	{
+		pthread_create(&tid, NULL, action_routine, args);
+		pthread_join(tid, NULL);
+	}
 }
 
 int	main(int argc, char **argv)
