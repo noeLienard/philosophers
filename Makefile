@@ -1,10 +1,10 @@
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = 
 
 NAME = philo
 
-SRC = main.c utils.c
+SRC = main.c utils.c action.c
 
 INCLUDE = philosophers.c
 

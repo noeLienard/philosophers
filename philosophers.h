@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/04 11:40:33 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/04 12:27:38 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ typedef struct s_args
 void	init_args(t_args *args, char **argv, int nb_args);
 void	*action_routine(void *args);
 
+/* action.c */
+void	is_eating(t_args *lc_args, struct timeval tv, int i);
+void	is_sleeping(t_args *lc_args, struct timeval tv, int i);
+void	is_thinking(t_args *lc_args, struct timeval tv, int i);
+void	*action_routine(void *args);
 /* utils.c */
 int		ft_atoi(char *str);
 int		printf_action(int timestamp, int number_philo, char *str);
