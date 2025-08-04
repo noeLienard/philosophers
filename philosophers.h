@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/07/18 15:31:38 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/04 11:40:33 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_args
 	int	i;
 	int	*tab_philo1;
 	int	*tab_philo2;
+	int is_die;
 }		t_args;
 
 /* main.c */

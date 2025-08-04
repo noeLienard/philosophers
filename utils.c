@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:12:43 by nlienard          #+#    #+#             */
-/*   Updated: 2025/07/18 15:25:22 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/04 11:22:11 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	fill_tab(t_args *args)
 
 	i = 0;
 	j = 0;
-	while (i <= args->nbr_p)
+	while (i < args->nbr_p)
 	{
 		args->tab_philo1[j] = i;
 		j++;
