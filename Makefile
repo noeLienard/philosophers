@@ -4,7 +4,7 @@ CFLAGS =
 
 NAME = philo
 
-SRC = main.c utils.c action.c
+SRC = main.c utils.c action.c $(wildcard ft_printf/*.c)
 
 INCLUDE = philosophers.c
 

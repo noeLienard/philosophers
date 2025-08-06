@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/05 14:26:54 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/06 12:04:16 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_args(t_args *args, char **argv, int nb_args)
 	args->time_to_sleep = ft_atoi(argv[3]);
 	if (nb_args == 6)
 		args->nbr_time = ft_atoi(argv[4]);
-	args->tab_philo1 = malloc(sizeof(int *) * args->nbr_p);
+	args->tab_philo = malloc(sizeof(int *) * args->nbr_p);
 	args->is_die = 0;
 	args->nbr_fork = ft_atoi(argv[0]);
 }
@@ -39,10 +39,11 @@ void	create_threads(t_args args)
 	pthread_t	tid;
 
 	args.i = 0;
-	while (args.i++ < args.nbr_p)
+	while (args.i < args.nbr_p)
 	{
 		pthread_create(&tid, NULL, action_routine, &args);
 		pthread_join(tid, NULL);
+		args.i++;
 	}
 }
 
@@ -55,6 +56,5 @@ int	main(int argc, char **argv)
 	init_args(&args, &argv[1], argc);
 	fill_tab(&args);
 	create_threads(args);
-	free(args.tab_philo1);
 	return (0);
 }

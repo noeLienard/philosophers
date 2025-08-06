@@ -6,13 +6,14 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/05 13:21:31 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/06 11:36:39 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
+# include "ft_printf/ft_printf.h"
 # include <pthread.h>
 # include <stdbool.h>
 # include <stddef.h>
@@ -21,7 +22,6 @@
 # include <sys/time.h>
 # include <time.h>
 # include <unistd.h>
-
 typedef struct s_args
 {
 	int				nbr_p;
@@ -31,12 +31,12 @@ typedef struct s_args
 	int				time_to_sleep;
 	int				nbr_time;
 	int				i;
-	int				**tab_philo1;
-	int				**tab_philo2;
+	int				**tab_philo;
 	int				is_die;
 	int				is_eating;
 	int				is_sleeping;
 	int				is_thinking;
+	int				start;
 	struct timeval	tv_start;
 }					t_args;
 
