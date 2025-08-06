@@ -6,13 +6,12 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/06 14:48:03 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:06:38 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
-
 # include "ft_printf/ft_printf.h"
 # include <pthread.h>
 # include <stdbool.h>
@@ -22,39 +21,38 @@
 # include <sys/time.h>
 # include <time.h>
 # include <unistd.h>
+
 typedef struct s_args
 {
-	int				nbr_p;
-	int				nbr_fork;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				nbr_time;
-	int				i;
-	int				**tab_philo;
-	int				is_die;
-	int				is_eating;
-	int				is_sleeping;
-	int				is_thinking;
-	int				start;
+	int	nbr_p;
+	int	nbr_fork;
+	int	time_to_die;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	nbr_time;
+	int	i;
+	int	*tab_philo;
+	int	start;
 	int	tv_start;
-}					t_args;
+	pthread_mutex_t	mutex_fork_r;
+	pthread_mutex_t	mutex_fork_l;
+}		t_args;
 
 /* main.c */
-void				init_args(t_args *args, char **argv, int nb_args);
-void				*action_routine(void *args);
+void	init_args(t_args *args, char **argv, int nb_args);
+void	*action_routine(void *args);
 
 /* action.c */
-void				is_eating(t_args *lc_args, struct timeval tv, int i);
-void				is_sleeping(t_args *lc_args, struct timeval tv, int i);
-void				is_thinking(t_args *lc_args, struct timeval tv, int i);
-void				*action_routine(void *args);
+void	is_eating(t_args *lc_args, struct timeval tv, int i);
+void	is_sleeping(t_args *lc_args, struct timeval tv, int i);
+void	is_thinking(t_args *lc_args, struct timeval tv, int i);
+void	*action_routine(void *args);
 
 /* utils.c */
-int					ft_atoi(char *str);
-int					printf_action(int timestamp, int number_philo, char *str);
-void				fill_tab(t_args *args);
-void				free_tab(int *tab);
-int					get_timestamp(void);
+int		ft_atoi(char *str);
+int		printf_action(int timestamp, int number_philo, char *str);
+void	fill_tab(t_args *args);
+void	free_tab(int *tab);
+int		get_timestamp(void);
 
 #endif

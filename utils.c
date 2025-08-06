@@ -6,11 +6,12 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:12:43 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/06 14:30:00 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/06 16:30:23 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
 
 int	ft_atoi(char *str)
 {
@@ -38,9 +39,7 @@ void	fill_tab(t_args *args)
 	j = 0;
 	while (j < args->nbr_p)
 	{
-		args->tab_philo[j] = malloc(sizeof(int) * 3);
-		args->tab_philo[j][0] = j + 1;
-		args->tab_philo[j][1] = true; // Left Fork
+		args->tab_philo[j] = j + 1;
 		j++;
 	}
 }
