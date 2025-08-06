@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:12:43 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/06 11:57:54 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/06 14:30:00 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	fill_tab(t_args *args)
 
 int	printf_action(int timestamp, int number_philo, char *str)
 {
-	if (ft_printf("%dms %d %s\n", timestamp, number_philo, str) == -1)
+	if (printf("%dms %d %s\n", timestamp, number_philo, str) == -1)
 		return (-1);
 	return (0);
 }
@@ -64,4 +64,12 @@ void free_tab(int *tab)
 	}
 	free(tab);
 	tab = NULL;
+}
+
+int get_timestamp()
+{
+	struct timeval tv;
+	
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }

@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/06 11:36:39 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/06 14:48:03 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_args
 	int				is_sleeping;
 	int				is_thinking;
 	int				start;
-	struct timeval	tv_start;
+	int	tv_start;
 }					t_args;
 
 /* main.c */
@@ -55,5 +55,6 @@ int					ft_atoi(char *str);
 int					printf_action(int timestamp, int number_philo, char *str);
 void				fill_tab(t_args *args);
 void				free_tab(int *tab);
+int					get_timestamp(void);
 
 #endif
