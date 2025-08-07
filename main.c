@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/07 14:52:06 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:45:44 by noelienard       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,23 @@ pthread_mutex_t	*init_fork(int nbr_p)
 	return (mtx_fork);
 }
 
+t_philo *init_philo(t_args *args) {
+	int i;
+	t_philo *tab;
+	tab = malloc(sizeof(t_philo) * args->nbr_p);
+	if (!tab)
+		return (0);
+	i = 0;
+	while (i < args->nbr_p)
+	{
+		tab[i].idx = i + 1;
+		tab[i].nbr_meal = 0;
+		tab[i].last_meal = 0;
+		i++;
+	}
+	return (tab);
+}
+
 int	init_args(t_args *args, char **argv, int nb_args)
 {
 	args->nbr_p = ft_atoi(argv[0]);
@@ -37,7 +54,7 @@ int	init_args(t_args *args, char **argv, int nb_args)
 	args->time_to_sleep = ft_atoi(argv[3]) * 1000;
 	if (nb_args == 6)
 		args->nbr_time = ft_atoi(argv[4]);
-	args->tab_philo = malloc(sizeof(int) * args->nbr_p);
+	args->tab_philo = init_philo(args);
 	if (!args->tab_philo)
 		return (0);
 	args->mtx_fork = init_fork(args->nbr_p);
@@ -46,7 +63,6 @@ int	init_args(t_args *args, char **argv, int nb_args)
 		free(args->tab_philo);
 		return (0);
 	}
-	pthread_mutex_init(&args->mtx_print, NULL);
 	return (1);
 }
 

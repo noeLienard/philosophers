@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/07 14:49:40 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:46:46 by noelienard       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
-# include "ft_printf/ft_printf.h"
 # include <errno.h>
 # include <pthread.h>
 # include <stdbool.h>
@@ -39,7 +38,6 @@ typedef struct s_args
 	int				nbr_time;
 	int				i;
 	t_philo			*tab_philo;
-	int				start;
 	int				start_time;
 	pthread_mutex_t	*mtx_fork;
 	pthread_mutex_t	*mtx_print;
@@ -54,7 +52,7 @@ int					is_eating(t_args *lc_args, int i);
 int					is_sleeping(t_args *lc_args, int i);
 int					is_thinking(t_args *lc_args, int i);
 void				*action_routine(void *args);
-int					ft_monitoring(t_args *lc_args);
+int					ft_monitoring(void *lc_args);
 
 /* utils.c */
 int					ft_atoi(char *str);

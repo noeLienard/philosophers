@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:24:52 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/07 14:50:30 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:49:08 by noelienard       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	take_fork_right(t_args *lc_args, int idx_philo)
 {
 	if (pthread_mutex_lock(&lc_args->mtx_fork[lc_args->i]) == EBUSY)
 		return (1);
-	printf_action((get_timestamp() - lc_args->tv_start), idx_philo,
+	printf_action((get_timestamp()), idx_philo,
 		"has taken a fork");
 	return (0);
 }
@@ -25,7 +25,7 @@ int	take_fork_left(t_args *lc_args, int idx_philo)
 {
 	if (pthread_mutex_lock(&lc_args->mtx_fork[lc_args->i + 1]) == EBUSY)
 		return (1);
-	printf_action((get_timestamp() - lc_args->tv_start), idx_philo,
+	printf_action((get_timestamp()), idx_philo,
 		"has taken a fork");
 	return (0);
 }
@@ -33,29 +33,29 @@ int	take_fork_left(t_args *lc_args, int idx_philo)
 int	is_eating(t_args *lc_args, int idx_philo)
 {
 	usleep(lc_args->time_to_eat);
-	printf_action((get_timestamp() - lc_args->tv_start), idx_philo,
+	printf_action((get_timestamp()), idx_philo,
 		"is eating");
 	pthread_mutex_unlock(&lc_args->mtx_fork[lc_args->i]);
 	pthread_mutex_unlock(&lc_args->mtx_fork[lc_args->i + 1]);
 	return (1);
 }
 
-int	is_sleeping(t_args *lc_args, int idx_philo)
-{
-	usleep(lc_args->time_to_sleep);
-	printf_action((get_timestamp() - lc_args->tv_start), idx_philo,
-		"is sleeping");
-	return (1);
-}
+// int	is_sleeping(t_args *lc_args, int idx_philo)
+// {
+// 	usleep(lc_args->time_to_sleep);
+// 	printf_action((get_timestamp() - lc_args->tv_start), idx_philo,
+// 		"is sleeping");
+// 	return (1);
+// }
 
-int	is_thinking(t_args *lc_args, int idx_philo)
-{
-	// pthread_mutex_lock(lc_args->mtx_print);
-	printf_action((get_timestamp() - lc_args->tv_start), idx_philo,
-		"is thinking");
-	// pthread_mutex_unlock(lc_args->mtx_print);
-	return (1);
-}
+// int	is_thinking(t_args *lc_args, int idx_philo)
+// {
+// 	// pthread_mutex_lock(lc_args->mtx_print);
+// 	printf_action((get_timestamp() - lc_args->tv_start), idx_philo,
+// 		"is thinking");
+// 	// pthread_mutex_unlock(lc_args->mtx_print);
+// 	return (1);
+// }
 
 int	ft_monitoring(void *args)
 {
@@ -75,8 +75,7 @@ int	ft_monitoring(void *args)
 			philo = lc_args->tab_philo[i];
 			if (lc_args->start_time - philo.last_meal > lc_args->time_to_die)
 			{
-				printf_action((get_timestamp() - lc_args->start_time),
-					philo.idx, "died");
+				printf_action((get_timestamp() - lc_args->start_time), i + 1, "died");
 				is_dead = true;
 				break ;
 			}
@@ -86,33 +85,13 @@ int	ft_monitoring(void *args)
 	return (NULL);
 }
 
-int	ready_to_eat(t_args *lc_args)
-{
-	int	count;
-
-	count = 0;
-	while (count < lc_args->time_to_die)
-	{
-		if (take_fork_right(lc_args, lc_args->tab_philo[lc_args->i]) == 0)
-			if (take_fork_left(lc_args, lc_args->tab_philo[lc_args->i
-					+ 1]) == 0)
-				count += 1000;
-		usleep(1000);
-	}
-	lc_args->philo_dead = true;
-	return (0);
-}
-
 void	*action_routine(void *args)
 {
 	t_args	*lc_args;
 
 	lc_args = (t_args *)args;
-	if (ready_to_eat(lc_args) == 1)
-	{
-		is_eating(lc_args, lc_args->tab_philo[lc_args->i]);
-		is_sleeping(lc_args, lc_args->tab_philo[lc_args->i]);
-		is_thinking(lc_args, lc_args->tab_philo[lc_args->i]);
-	}
+	is_eating(lc_args, lc_args->tab_philo[lc_args->i].idx);
+	is_sleeping(lc_args, lc_args->tab_philo[lc_args->i].idx);
+	is_thinking(lc_args, lc_args->tab_philo[lc_args->i].idx);
 	return (NULL);
 }
