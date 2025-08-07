@@ -6,7 +6,7 @@
 /*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/07 17:50:50 by noelienard       ###   ########.fr       */
+/*   Updated: 2025/08/07 18:05:48 by noelienard       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,9 @@ int	main(int argc, char **argv)
 	if (argc != 5 && argc != 6)
 		return (1);
 	init_args(&args, &argv[1], argc);
-	fill_tab(&args);
+	printf("nbr_p :%d\ntime_to_die :%d\ntime_to_eat : %d\ntime_to_sleep : %d\n", args.nbr_p, args.time_to_die, args.time_to_eat, args.time_to_sleep);
+	for (int i = 0; i < args.nbr_p; i++)
+		printf("idx :%d\nbr meal : %d\nlast meal : %d\n", args.tab_philo[i].idx, args.tab_philo[i].nbr_meal, args.tab_philo[i].last_meal);
 	create_threads(args);
 	return (0);
 }

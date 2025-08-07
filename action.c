@@ -6,39 +6,39 @@
 /*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:24:52 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/07 17:51:51 by noelienard       ###   ########.fr       */
+/*   Updated: 2025/08/07 18:04:47 by noelienard       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	take_fork_right(t_args *lc_args, int idx_philo)
-{
-	if (pthread_mutex_lock(&lc_args->mtx_fork[lc_args->i]) == EBUSY)
-		return (1);
-	printf_action((get_timestamp()), idx_philo,
-		"has taken a fork");
-	return (0);
-}
+// int	take_fork_right(t_args *lc_args, int idx_philo)
+// {
+// 	if (pthread_mutex_lock(&lc_args->mtx_fork[lc_args->i]) == EBUSY)
+// 		return (1);
+// 	printf_action((get_timestamp()), idx_philo,
+// 		"has taken a fork");
+// 	return (0);
+// }
 
-int	take_fork_left(t_args *lc_args, int idx_philo)
-{
-	if (pthread_mutex_lock(&lc_args->mtx_fork[lc_args->i + 1]) == EBUSY)
-		return (1);
-	printf_action((get_timestamp()), idx_philo,
-		"has taken a fork");
-	return (0);
-}
+// int	take_fork_left(t_args *lc_args, int idx_philo)
+// {
+// 	if (pthread_mutex_lock(&lc_args->mtx_fork[lc_args->i + 1]) == EBUSY)
+// 		return (1);
+// 	printf_action((get_timestamp()), idx_philo,
+// 		"has taken a fork");
+// 	return (0);
+// }
 
-int	is_eating(t_args *lc_args, int idx_philo)
-{
-	usleep(lc_args->time_to_eat);
-	printf_action((get_timestamp()), idx_philo,
-		"is eating");
-	pthread_mutex_unlock(&lc_args->mtx_fork[lc_args->i]);
-	pthread_mutex_unlock(&lc_args->mtx_fork[lc_args->i + 1]);
-	return (1);
-}
+// int	is_eating(t_args *lc_args, int idx_philo)
+// {
+// 	usleep(lc_args->time_to_eat);
+// 	printf_action((get_timestamp()), idx_philo,
+// 		"is eating");
+// 	pthread_mutex_unlock(&lc_args->mtx_fork[lc_args->i]);
+// 	pthread_mutex_unlock(&lc_args->mtx_fork[lc_args->i + 1]);
+// 	return (1);
+// }
 
 // int	is_sleeping(t_args *lc_args, int idx_philo)
 // {
@@ -90,8 +90,8 @@ void	*action_routine(void *args)
 	t_args	*lc_args;
 
 	lc_args = (t_args *)args;
-	is_eating(lc_args, lc_args->tab_philo[lc_args->i].idx);
-	is_sleeping(lc_args, lc_args->tab_philo[lc_args->i].idx);
-	is_thinking(lc_args, lc_args->tab_philo[lc_args->i].idx);
+	// is_eating(lc_args, lc_args->tab_philo[lc_args->i].idx);
+	// is_sleeping(lc_args, lc_args->tab_philo[lc_args->i].idx);
+	// is_thinking(lc_args, lc_args->tab_philo[lc_args->i].idx);
 	return (NULL);
 }
