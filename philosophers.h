@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/06 17:06:38 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/07 12:11:50 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "ft_printf/ft_printf.h"
 # include <pthread.h>
 # include <stdbool.h>
+# include <errno.h>
 # include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -25,7 +26,6 @@
 typedef struct s_args
 {
 	int	nbr_p;
-	int	nbr_fork;
 	int	time_to_die;
 	int	time_to_eat;
 	int	time_to_sleep;
@@ -34,18 +34,18 @@ typedef struct s_args
 	int	*tab_philo;
 	int	start;
 	int	tv_start;
-	pthread_mutex_t	mutex_fork_r;
-	pthread_mutex_t	mutex_fork_l;
+	bool philo_dead;
+	pthread_mutex_t	*mtx_fork;
 }		t_args;
 
 /* main.c */
-void	init_args(t_args *args, char **argv, int nb_args);
+int	init_args(t_args *args, char **argv, int nb_args);
 void	*action_routine(void *args);
 
 /* action.c */
-void	is_eating(t_args *lc_args, struct timeval tv, int i);
-void	is_sleeping(t_args *lc_args, struct timeval tv, int i);
-void	is_thinking(t_args *lc_args, struct timeval tv, int i);
+void	is_eating(t_args *lc_args, int i);
+void	is_sleeping(t_args *lc_args, int i);
+void	is_thinking(t_args *lc_args, int i);
 void	*action_routine(void *args);
 
 /* utils.c */
