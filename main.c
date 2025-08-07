@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/07 12:03:25 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:52:06 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	init_args(t_args *args, char **argv, int nb_args)
 	args->time_to_sleep = ft_atoi(argv[3]) * 1000;
 	if (nb_args == 6)
 		args->nbr_time = ft_atoi(argv[4]);
-	args->philo_dead = false;
 	args->tab_philo = malloc(sizeof(int) * args->nbr_p);
 	if (!args->tab_philo)
 		return (0);
@@ -47,25 +46,30 @@ int	init_args(t_args *args, char **argv, int nb_args)
 		free(args->tab_philo);
 		return (0);
 	}
+	pthread_mutex_init(&args->mtx_print, NULL);
 	return (1);
 }
 
 void	create_threads(t_args args)
 {
 	pthread_t	tid[args.nbr_p];
-
+	pthread_t 	monitor;
+	
 	args.i = 0;
 	while (args.i < args.nbr_p)
 	{
 		pthread_create(&tid[args.i], NULL, action_routine, &args);
+		usleep(1000);
 		args.i++;
 	}
+	pthread_create(&monitor, NULL, ft_monitoring, &args);
 	args.i = 0;
 	while (args.i < args.nbr_p)
 	{
 		pthread_join(tid[args.i], NULL);
 		args.i++;
 	}
+	pthread_join(&monitor, NULL);
 }
 
 int	main(int argc, char **argv)
