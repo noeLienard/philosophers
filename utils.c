@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:12:43 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/06 16:30:23 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:55:05 by noelienard       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,39 +30,12 @@ int	ft_atoi(char *str)
 	return (res);
 }
 
-void	fill_tab(t_args *args)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (j < args->nbr_p)
-	{
-		args->tab_philo[j] = j + 1;
-		j++;
-	}
-}
 
 int	printf_action(int timestamp, int number_philo, char *str)
 {
 	if (printf("%dms %d %s\n", timestamp, number_philo, str) == -1)
 		return (-1);
 	return (0);
-}
-
-void free_tab(int *tab)
-{
-	int i;
-	
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-	tab = NULL;
 }
 
 int get_timestamp()

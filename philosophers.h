@@ -6,7 +6,7 @@
 /*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/07 17:46:46 by noelienard       ###   ########.fr       */
+/*   Updated: 2025/08/07 17:51:44 by noelienard       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int					is_eating(t_args *lc_args, int i);
 int					is_sleeping(t_args *lc_args, int i);
 int					is_thinking(t_args *lc_args, int i);
 void				*action_routine(void *args);
-int					ft_monitoring(void *lc_args);
+void				*ft_monitoring(void *lc_args);
 
 /* utils.c */
 int					ft_atoi(char *str);

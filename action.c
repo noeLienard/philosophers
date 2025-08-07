@@ -6,7 +6,7 @@
 /*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:24:52 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/07 17:49:08 by noelienard       ###   ########.fr       */
+/*   Updated: 2025/08/07 17:51:51 by noelienard       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	is_eating(t_args *lc_args, int idx_philo)
 // 	return (1);
 // }
 
-int	ft_monitoring(void *args)
+void	*ft_monitoring(void *args)
 {
 	bool	is_dead;
 	int		i;

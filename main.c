@@ -6,7 +6,7 @@
 /*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/07 17:45:44 by noelienard       ###   ########.fr       */
+/*   Updated: 2025/08/07 17:50:50 by noelienard       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	create_threads(t_args args)
 		pthread_join(tid[args.i], NULL);
 		args.i++;
 	}
-	pthread_join(&monitor, NULL);
+	pthread_join(monitor, NULL);
 }
 
 int	main(int argc, char **argv)
