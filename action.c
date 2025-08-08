@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:24:52 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/08 10:39:46 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:11:37 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	take_fork_right(t_args *lc_args, t_philo *philo)
 
 int	take_fork_left(t_args *lc_args, t_philo *philo)
 {
-	pthread_mutex_lock(&lc_args->mtx_fork[lc_args->i + 1]);
+	pthread_mutex_lock(&lc_args->mtx_fork[(lc_args->i + 1) % lc_args->nbr_p]);
 	pthread_mutex_lock(&lc_args->mtx_print);
 	printf_action((get_timestamp() - lc_args->start_time), philo->idx,
 		"has taken a fork");
@@ -42,7 +42,7 @@ int	is_eating(t_args *lc_args, t_philo *philo)
 	philo->last_meal = get_timestamp();
 	pthread_mutex_unlock(&lc_args->mtx_print);
 	pthread_mutex_unlock(&lc_args->mtx_fork[lc_args->i]);
-	pthread_mutex_unlock(&lc_args->mtx_fork[lc_args->i + 1]);
+	pthread_mutex_unlock(&lc_args->mtx_fork[(lc_args->i + 1) % lc_args->nbr_p]);
 	return (1);
 }
 
@@ -82,9 +82,12 @@ void	*ft_monitoring(void *args)
 			philo = lc_args->tab_philo[i];
 			if (lc_args->start_time - philo.last_meal > lc_args->time_to_die)
 			{
-				printf_action((get_timestamp() - lc_args->start_time), i + 1, "died");
+				pthread_mutex_lock(&lc_args->mtx_print);
+				printf_action((get_timestamp() - lc_args->start_time), i + 1,
+					"died");
 				is_dead = true;
-				break ;
+				pthread_mutex_unlock(&lc_args->mtx_print);
+				exit(1);
 			}
 			i++;
 		}
@@ -96,17 +99,17 @@ void	*ft_monitoring(void *args)
 void	*action_routine(void *args)
 {
 	t_args	*lc_args;
-	bool 	fork_l = false;
-	bool 	fork_r = false;
+
 	lc_args = (t_args *)args;
-	lc_args->start_time = get_timestamp();
-//	while (fork_l == false || fork_r == true)
-
-
-	take_fork_left(lc_args,  &lc_args->tab_philo[lc_args->i]);
-	take_fork_right(lc_args, &lc_args->tab_philo[lc_args->i]);
-	is_eating(lc_args, &lc_args->tab_philo[lc_args->i]);
-	is_sleeping(lc_args, &lc_args->tab_philo[lc_args->i]);
-	is_thinking(lc_args, &lc_args->tab_philo[lc_args->i]);
+	if (lc_args->i % 2 != 0)
+		usleep(1000);
+	while (1)
+	{
+		take_fork_right(lc_args, &lc_args->tab_philo[lc_args->i]);
+		take_fork_left(lc_args, &lc_args->tab_philo[lc_args->i]);
+		is_eating(lc_args, &lc_args->tab_philo[lc_args->i]);
+		is_sleeping(lc_args, &lc_args->tab_philo[lc_args->i]);
+		is_thinking(lc_args, &lc_args->tab_philo[lc_args->i]);
+	}
 	return (NULL);
 }

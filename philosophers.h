@@ -6,13 +6,13 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/08 09:45:38 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/08 12:00:27 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
-#include "ft_printf/ft_printf.h"
+# include "ft_printf/ft_printf.h"
 # include <errno.h>
 # include <pthread.h>
 # include <stdbool.h>
@@ -55,8 +55,6 @@ void				*ft_monitoring(void *lc_args);
 /* utils.c */
 int					ft_atoi(char *str);
 int					printf_action(int timestamp, int number_philo, char *str);
-void				fill_tab(t_args *args);
-void				free_tab(int *tab);
 int					get_timestamp(void);
 
 #endif

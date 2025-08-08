@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/08 09:45:57 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:09:07 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,11 @@ pthread_mutex_t	*init_fork(int nbr_p)
 	return (mtx_fork);
 }
 
-t_philo *init_philo(t_args *args) {
-	int i;
-	t_philo *tab;
+t_philo	*init_philo(t_args *args)
+{
+	int		i;
+	t_philo	*tab;
+
 	tab = malloc(sizeof(t_philo) * args->nbr_p);
 	if (!tab)
 		return (0);
@@ -71,16 +73,17 @@ int	init_args(t_args *args, char **argv, int nb_args)
 void	create_threads(t_args args)
 {
 	pthread_t	*tid;
-	pthread_t 	monitor;
-	
+	pthread_t	monitor;
+
 	tid = malloc(sizeof(pthread_t) * args.nbr_p);
 	if (!tid)
 		return ;
 	args.i = 0;
+	if (args.i == 0)
+		args.start_time = get_timestamp();
 	while (args.i < args.nbr_p)
 	{
 		pthread_create(&tid[args.i], NULL, action_routine, &args);
-		usleep(1000);
 		args.i++;
 	}
 	pthread_create(&monitor, NULL, ft_monitoring, &args);
@@ -93,9 +96,13 @@ void	create_threads(t_args args)
 	pthread_join(monitor, NULL);
 }
 
-// printf("nbr_p :%d\ntime_to_die :%d\ntime_to_eat : %d\ntime_to_sleep : %d\n", args.nbr_p, args.time_to_die, args.time_to_eat, args.time_to_sleep);
-// for (int i = 0; i < args.nbr_p; i++)
-// 	printf("idx :%d\nbr meal : %d\nlast meal : %d\n", args.tab_philo[i].idx, args.tab_philo[i].nbr_meal, args.tab_philo[i].last_meal);
+/*
+printf("nbr_p :%d\ntime_to_die :%d\ntime_to_eat : %d\ntime_to_sleep : %d\n",
+	args.nbr_p, args.time_to_die, args.time_to_eat, args.time_to_sleep);
+for (int i = 0; i < args.nbr_p; i++)
+	printf("idx :%d\nbr meal : %d\nlast meal : %d\n", args.tab_philo[i].idx,
+		args.tab_philo[i].nbr_meal, args.tab_philo[i].last_meal);
+*/
 
 int	main(int argc, char **argv)
 {
