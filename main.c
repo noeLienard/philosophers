@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
+/*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/07 18:05:48 by noelienard       ###   ########.fr       */
+/*   Updated: 2025/08/08 09:45:57 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	init_args(t_args *args, char **argv, int nb_args)
 	args->time_to_eat = ft_atoi(argv[2]) * 1000;
 	args->time_to_sleep = ft_atoi(argv[3]) * 1000;
 	if (nb_args == 6)
-		args->nbr_time = ft_atoi(argv[4]);
+		args->must_eat = ft_atoi(argv[4]);
 	args->tab_philo = init_philo(args);
 	if (!args->tab_philo)
 		return (0);
@@ -63,14 +63,19 @@ int	init_args(t_args *args, char **argv, int nb_args)
 		free(args->tab_philo);
 		return (0);
 	}
+	pthread_mutex_init(&args->mtx_print, NULL);
+	args->start_time = 0;
 	return (1);
 }
 
 void	create_threads(t_args args)
 {
-	pthread_t	tid[args.nbr_p];
+	pthread_t	*tid;
 	pthread_t 	monitor;
 	
+	tid = malloc(sizeof(pthread_t) * args.nbr_p);
+	if (!tid)
+		return ;
 	args.i = 0;
 	while (args.i < args.nbr_p)
 	{
@@ -88,6 +93,10 @@ void	create_threads(t_args args)
 	pthread_join(monitor, NULL);
 }
 
+// printf("nbr_p :%d\ntime_to_die :%d\ntime_to_eat : %d\ntime_to_sleep : %d\n", args.nbr_p, args.time_to_die, args.time_to_eat, args.time_to_sleep);
+// for (int i = 0; i < args.nbr_p; i++)
+// 	printf("idx :%d\nbr meal : %d\nlast meal : %d\n", args.tab_philo[i].idx, args.tab_philo[i].nbr_meal, args.tab_philo[i].last_meal);
+
 int	main(int argc, char **argv)
 {
 	t_args	args;
@@ -95,9 +104,6 @@ int	main(int argc, char **argv)
 	if (argc != 5 && argc != 6)
 		return (1);
 	init_args(&args, &argv[1], argc);
-	printf("nbr_p :%d\ntime_to_die :%d\ntime_to_eat : %d\ntime_to_sleep : %d\n", args.nbr_p, args.time_to_die, args.time_to_eat, args.time_to_sleep);
-	for (int i = 0; i < args.nbr_p; i++)
-		printf("idx :%d\nbr meal : %d\nlast meal : %d\n", args.tab_philo[i].idx, args.tab_philo[i].nbr_meal, args.tab_philo[i].last_meal);
 	create_threads(args);
 	return (0);
 }

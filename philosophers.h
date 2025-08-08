@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
+/*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/07 18:04:29 by noelienard       ###   ########.fr       */
+/*   Updated: 2025/08/08 09:45:38 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
+#include "ft_printf/ft_printf.h"
 # include <errno.h>
 # include <pthread.h>
 # include <stdbool.h>
@@ -35,12 +36,12 @@ typedef struct s_args
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				nbr_time;
+	int				must_eat;
 	int				i;
-	t_philo			*tab_philo;
 	int				start_time;
+	t_philo			*tab_philo;
 	pthread_mutex_t	*mtx_fork;
-	pthread_mutex_t	*mtx_print;
+	pthread_mutex_t	mtx_print;
 }					t_args;
 
 /* main.c */
