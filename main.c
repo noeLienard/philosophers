@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/08 15:17:52 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/11 13:34:14 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,22 @@ pthread_mutex_t	*init_fork(int nbr_p)
 t_philo	*init_philo(t_args *args)
 {
 	int		i;
-	t_philo	*tab;
+	t_philo	*philo;
 
-	tab = malloc(sizeof(t_philo) * args->nbr_p);
-	if (!tab)
+	philo = malloc(sizeof(t_philo) * args->nbr_p);
+	if (!philo)
 		return (0);
 	i = 0;
 	while (i < args->nbr_p)
 	{
-		tab[i].idx = i + 1;
-		tab[i].nbr_meal = 0;
-		tab[i].last_meal = 0;
+		philo[i].idx = i + 1;
+		philo[i].nbr_meal = 0;
+		philo[i].last_meal = 0;
+		philo[i].i = i;
+		philo[i].args = args;
 		i++;
 	}
-	return (tab);
+	return (philo);
 }
 
 int	init_args(t_args *args, char **argv, int nb_args)
@@ -56,61 +58,59 @@ int	init_args(t_args *args, char **argv, int nb_args)
 	args->time_to_sleep = ft_atoi(argv[3]) * 1000;
 	if (nb_args == 6)
 		args->must_eat = ft_atoi(argv[4]);
-	args->tab_philo = init_philo(args);
-	if (!args->tab_philo)
-		return (0);
 	args->mtx_fork = init_fork(args->nbr_p);
 	if (!args->mtx_fork)
-	{
-		free(args->tab_philo);
 		return (0);
-	}
 	pthread_mutex_init(&args->mtx_print, NULL);
 	args->start_time = 0;
 	return (1);
 }
 
-void	create_threads(t_args args)
+void	create_threads(t_philo *philo, t_args *args)
 {
 	pthread_t	*tid;
 	pthread_t	monitor;
+	int			i;
 
-	tid = malloc(sizeof(pthread_t) * args.nbr_p);
+	i = 0;
+	tid = malloc(sizeof(pthread_t) * philo->args->nbr_p);
 	if (!tid)
 		return ;
-	args.i = 0;
-	if (args.i == 0)
-		args.start_time = get_timestamp();
-	while (args.i < args.nbr_p)
+	args->start_time = get_timestamp();
+	while (philo[i].i < philo->args->nbr_p)
 	{
-		pthread_create(&tid[args.i], NULL, action_routine, &args);
-		args.i++;
+		pthread_create(&tid[i], NULL, action_routine, &philo[i]);
+		i++;
 	}
 	pthread_create(&monitor, NULL, ft_monitoring, &args);
-	args.i = 0;
-	while (args.i < args.nbr_p)
+	i = 0;
+	while (philo[i].i < args->nbr_p)
 	{
-		pthread_join(tid[args.i], NULL);
-		args.i++;
+		pthread_join(tid[i], NULL);
+		i++;
 	}
 	pthread_join(monitor, NULL);
 }
 
 /*
-printf("nbr_p :%d\ntime_to_die :%d\ntime_to_eat : %d\ntime_to_sleep : %d\n",
-	args.nbr_p, args.time_to_die, args.time_to_eat, args.time_to_sleep);
-for (int i = 0; i < args.nbr_p; i++)
-	printf("idx :%d\nbr meal : %d\nlast meal : %d\n", args.tab_philo[i].idx,
-		args.tab_philo[i].nbr_meal, args.tab_philo[i].last_meal);
+ft_printf("Philosophers Number : %d\nTime to eat : %d\nTime to die :
+	%d\nTime to sleep : %d\n", args.nbr_p, args.time_to_eat, args.time_to_die,
+	args.time_to_sleep);
+ft_printf("---------------------------Philo---------------------------\n");
+for (size_t i = 0; i < args.nbr_p; i++)
+ft_printf("Idx : %d\nLast meal : %d\nNumbers meal : %d\n", philo[i].idx,
+	philo[i].last_meal, philo[i].nbr_meal);
 */
 
 int	main(int argc, char **argv)
 {
-	t_args	args;
+	t_philo	*philo;
+	t_args	*args;
 
 	if (argc != 5 && argc != 6)
 		return (1);
-	init_args(&args, &argv[1], argc);
-	create_threads(args);
+	init_args(args, &argv[1], argc);
+	philo = init_philo(args);
+	create_threads(philo, args);
 	return (0);
 }

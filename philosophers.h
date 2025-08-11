@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/08 12:00:27 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/11 11:57:52 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,6 @@
 # include <time.h>
 # include <unistd.h>
 
-typedef struct s_philo
-{
-	int				last_meal;
-	int				nbr_meal;
-	int				idx;
-}					t_philo;
-
 typedef struct s_args
 {
 	int				nbr_p;
@@ -37,12 +30,20 @@ typedef struct s_args
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat;
-	int				i;
 	int				start_time;
-	t_philo			*tab_philo;
 	pthread_mutex_t	*mtx_fork;
 	pthread_mutex_t	mtx_print;
 }					t_args;
+
+typedef struct s_philo
+{
+	int				last_meal;
+	int				nbr_meal;
+	int				idx;
+	int				i;
+	t_args 			*args;
+}					t_philo;
+
 
 /* main.c */
 int					init_args(t_args *args, char **argv, int nb_args);
@@ -50,7 +51,7 @@ void				*action_routine(void *args);
 
 /* action.c */
 void				*action_routine(void *args);
-void				*ft_monitoring(void *lc_args);
+void				*ft_monitoring(void *args);
 
 /* utils.c */
 int					ft_atoi(char *str);
