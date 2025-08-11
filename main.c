@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/11 15:26:45 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/11 22:47:05 by noelienard       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_philo	*init_philo(t_args *args)
 	{
 		philo[i].idx = i + 1;
 		philo[i].nbr_meal = 0;
-		philo[i].last_meal = 0;
+		philo[i].last_meal = get_timestamp();
 		philo[i].i = i;
 		philo[i].args = args;
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:24:52 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/11 15:28:17 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/11 22:48:21 by noelienard       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ int	is_eating(int start_time, t_philo *philo, int i)
 {
 	if (pthread_mutex_lock(&philo->args->mtx_print) != 0)
 		exit(1);
-	usleep(philo->args->time_to_eat);
 	printf_action((get_timestamp() - philo->args->start_time), philo->idx,
 		"is eating");
 	if (pthread_mutex_unlock(&philo->args->mtx_print) != 0)
 		exit(1);
+	usleep(philo->args->time_to_eat);
 	philo->nbr_meal++;
 	philo->last_meal = get_timestamp();
 	if (pthread_mutex_unlock(&philo->args->mtx_fork[i]) != 0)
@@ -61,11 +61,11 @@ int	is_sleeping(int start_time, t_philo *philo)
 {
 	if (pthread_mutex_lock(&philo->args->mtx_print) != 0)
 		exit(1);
-	usleep(philo->args->time_to_sleep);
 	printf_action((get_timestamp() - start_time), philo->idx,
 		"is sleeping");
 	if (pthread_mutex_unlock(&philo->args->mtx_print) != 0)
 		exit(1);
+	usleep(philo->args->time_to_sleep);
 	return (1);
 }
 
