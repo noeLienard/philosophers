@@ -6,12 +6,11 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/11 13:34:14 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:46:35 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
 pthread_mutex_t	*init_fork(int nbr_p)
 {
 	pthread_mutex_t	*mtx_fork;
@@ -63,6 +62,7 @@ int	init_args(t_args *args, char **argv, int nb_args)
 		return (0);
 	pthread_mutex_init(&args->mtx_print, NULL);
 	args->start_time = 0;
+	args->ready_odd = false;
 	return (1);
 }
 
@@ -82,7 +82,7 @@ void	create_threads(t_philo *philo, t_args *args)
 		pthread_create(&tid[i], NULL, action_routine, &philo[i]);
 		i++;
 	}
-	pthread_create(&monitor, NULL, ft_monitoring, &args);
+	pthread_create(&monitor, NULL, ft_monitoring, philo);
 	i = 0;
 	while (philo[i].i < args->nbr_p)
 	{
@@ -105,12 +105,12 @@ ft_printf("Idx : %d\nLast meal : %d\nNumbers meal : %d\n", philo[i].idx,
 int	main(int argc, char **argv)
 {
 	t_philo	*philo;
-	t_args	*args;
+	t_args	args;
 
 	if (argc != 5 && argc != 6)
 		return (1);
-	init_args(args, &argv[1], argc);
-	philo = init_philo(args);
-	create_threads(philo, args);
+	init_args(&args, &argv[1], argc);
+	philo = init_philo(&args);
+	create_threads(philo, &args);
 	return (0);
 }

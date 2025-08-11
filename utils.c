@@ -6,12 +6,11 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:12:43 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/11 11:48:34 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:46:01 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
 
 int	ft_atoi(char *str)
 {
