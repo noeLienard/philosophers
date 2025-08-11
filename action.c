@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:24:52 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/11 15:01:29 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:28:17 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,13 @@ void	*action_routine(void *data)
 	lc_philo = (t_philo *)data;
 	i = lc_philo->i;
 	
+	if (i + 1 == lc_philo->args->nbr_p)
+		lc_philo->args->ready_odd = 1;
 	if (i % 2 != 0)
-	 	usleep(1000);
+	{
+		while (lc_philo->args->ready_odd == 0)
+			usleep(1000);
+	}
 	while (1)
 	{
 		take_fork_right(lc_philo->args->start_time, lc_philo, i);
