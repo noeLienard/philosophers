@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/11 14:46:14 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:48:16 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_args
 	int				time_to_sleep;
 	int				must_eat;
 	int				start_time;
-	bool 			ready_odd;
+	int 			ready_odd;
 	pthread_mutex_t	*mtx_fork;
 	pthread_mutex_t	mtx_print;
 }					t_args;

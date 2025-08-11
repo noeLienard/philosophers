@@ -6,11 +6,12 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:24:52 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/11 14:45:11 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:01:29 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
 
 int	take_fork_right(int start_time, t_philo *philo, int i)
 {
@@ -90,9 +91,9 @@ void	*ft_monitoring(void *data)
 	while (is_dead == false)
 	{
 		i = 0;
-		while (i < lc_philo[i].args->nbr_p)
+		while (i < lc_philo->args->nbr_p)
 		{
-			if (lc_philo[i].args->start_time- lc_philo[i].last_meal > lc_philo[i].args->time_to_die)
+			if (lc_philo->args->start_time- lc_philo[i].last_meal > lc_philo->args->time_to_die)
 			{
 				if (pthread_mutex_lock(&lc_philo[i].args->mtx_print) != 0)
 					exit(1);
@@ -117,14 +118,8 @@ void	*action_routine(void *data)
 
 	lc_philo = (t_philo *)data;
 	i = lc_philo->i;
-	// if (i + 1 == lc_philo->args->nbr_p)
-	// 	lc_philo->args->ready_odd = true;
-	// else if (i % 2 != 0)
-	// {
-	// 	while (lc_philo->args->ready_odd == false)
-	// 		usleep(1000);	
-	// }
-	 if (i % 2 != 0)
+	
+	if (i % 2 != 0)
 	 	usleep(1000);
 	while (1)
 	{

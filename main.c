@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/11 14:46:35 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:05:35 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	init_args(t_args *args, char **argv, int nb_args)
 		return (0);
 	pthread_mutex_init(&args->mtx_print, NULL);
 	args->start_time = 0;
-	args->ready_odd = false;
 	return (1);
 }
 
@@ -77,14 +76,15 @@ void	create_threads(t_philo *philo, t_args *args)
 	if (!tid)
 		return ;
 	args->start_time = get_timestamp();
-	while (philo[i].i < philo->args->nbr_p)
+	while (i < philo->args->nbr_p)
 	{
 		pthread_create(&tid[i], NULL, action_routine, &philo[i]);
+		usleep(1000);
 		i++;
 	}
 	pthread_create(&monitor, NULL, ft_monitoring, philo);
 	i = 0;
-	while (philo[i].i < args->nbr_p)
+	while (i < args->nbr_p)
 	{
 		pthread_join(tid[i], NULL);
 		i++;
