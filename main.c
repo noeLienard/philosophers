@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/12 13:06:07 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/12 14:45:26 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	init_args(t_args *args, char **argv, int nb_args)
 	args->ready_odd = 0;
 	args->philo_died = 0;
 	args->eat_enough = 0;
+	args->nbr_args = nb_args;
 	return (0);
 }
 int free_and_destroy_all_mutex(t_args *args, t_philo *philo)
