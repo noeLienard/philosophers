@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:24:52 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/12 17:10:57 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/12 17:43:49 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	*ft_monitoring(void *data)
 		j = 0;
 		while (i < lc_philo->args->nbr_p)
 		{
-			if (lc_philo[i].last_meal - lc_philo->args->start_time > lc_philo->args->time_to_die / 1000)
+			if (lc_philo[i].last_meal - lc_philo->args->start_time > lc_philo->args->time_to_die || lc_philo->args->nbr_p == 1)
 			{
 				lc_philo->args->philo_died = 1;
 				if (pthread_mutex_lock(&lc_philo[i].args->mtx_print) != 0)
