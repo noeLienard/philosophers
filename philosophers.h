@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/11 14:48:16 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:58:18 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ typedef struct s_args
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat;
+	int				eat_enough;
 	int				start_time;
-	int 			ready_odd;
+	int				ready_odd;
+	int				philo_died;
+	int				nbr_args;
 	pthread_mutex_t	*mtx_fork;
 	pthread_mutex_t	mtx_print;
 }					t_args;
@@ -41,9 +44,8 @@ typedef struct s_philo
 	int				nbr_meal;
 	int				idx;
 	int				i;
-	t_args 			*args;
+	t_args			*args;
 }					t_philo;
-
 
 /* main.c */
 int					init_args(t_args *args, char **argv, int nb_args);

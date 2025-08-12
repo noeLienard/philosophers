@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
+/*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/11 22:47:05 by noelienard       ###   ########.fr       */
+/*   Updated: 2025/08/12 13:06:07 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,48 @@ t_philo	*init_philo(t_args *args)
 int	init_args(t_args *args, char **argv, int nb_args)
 {
 	args->nbr_p = ft_atoi(argv[0]);
+	if (args->nbr_p < 1 && args->nbr_p > 300)
+		return (1);
 	args->time_to_die = ft_atoi(argv[1]) * 1000;
+	if (args->time_to_die < 1)
+		return (1);
 	args->time_to_eat = ft_atoi(argv[2]) * 1000;
+	if (args->time_to_eat < 1)
+		return (1);
 	args->time_to_sleep = ft_atoi(argv[3]) * 1000;
+	if (args->time_to_sleep < 1)
+		return (1);
 	if (nb_args == 6)
+	{
 		args->must_eat = ft_atoi(argv[4]);
+		if (args->must_eat < 1)
+			return (1);
+	}
 	args->mtx_fork = init_fork(args->nbr_p);
 	if (!args->mtx_fork)
 		return (0);
 	pthread_mutex_init(&args->mtx_print, NULL);
 	args->start_time = 0;
 	args->ready_odd = 0;
-	return (1);
+	args->philo_died = 0;
+	args->eat_enough = 0;
+	return (0);
+}
+int free_and_destroy_all_mutex(t_args *args, t_philo *philo)
+{
+	int i;
+
+	i = 0;
+	while (i < args->nbr_p)
+	{
+		if (pthread_mutex_destroy(&args->mtx_fork[i]) != 0)
+			return (0);
+		i++;
+	}
+	pthread_mutex_destroy(&args->mtx_print);
+	free(philo);
+	free(args->mtx_fork);
+	return(1);
 }
 
 void	create_threads(t_philo *philo, t_args *args)
@@ -91,17 +121,9 @@ void	create_threads(t_philo *philo, t_args *args)
 		i++;
 	}
 	pthread_join(monitor, NULL);
+	free_and_destroy_all_mutex(args, philo);
+	free(tid);
 }
-
-/*
-ft_printf("Philosophers Number : %d\nTime to eat : %d\nTime to die :
-	%d\nTime to sleep : %d\n", args.nbr_p, args.time_to_eat, args.time_to_die,
-	args.time_to_sleep);
-ft_printf("---------------------------Philo---------------------------\n");
-for (size_t i = 0; i < args.nbr_p; i++)
-ft_printf("Idx : %d\nLast meal : %d\nNumbers meal : %d\n", philo[i].idx,
-	philo[i].last_meal, philo[i].nbr_meal);
-*/
 
 int	main(int argc, char **argv)
 {
@@ -109,8 +131,9 @@ int	main(int argc, char **argv)
 	t_args	args;
 
 	if (argc != 5 && argc != 6)
-		return (1);
-	init_args(&args, &argv[1], argc);
+		return (printf("Invalid number of arguments\n"), 1);
+	if (init_args(&args, &argv[1], argc) == 1)
+		return (printf("Invalid arguments\n"), 1);
 	philo = init_philo(&args);
 	create_threads(philo, &args);
 	return (0);
