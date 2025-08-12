@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:12:43 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/11 14:46:01 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/12 15:25:02 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	ft_atoi(char *str)
 		res = res * 10 + (str[i] - '0');
 		i++;
 	}
+	if (str[i] != '\0')
+		return (0);
 	return (res);
 }
 
