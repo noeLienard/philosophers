@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/12 14:45:26 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/12 15:27:35 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	create_threads(t_philo *philo, t_args *args)
 	while (i < philo->args->nbr_p)
 	{
 		pthread_create(&tid[i], NULL, action_routine, &philo[i]);
-		usleep(1000);
 		i++;
 	}
 	pthread_create(&monitor, NULL, ft_monitoring, philo);
