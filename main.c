@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/12 15:27:35 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/13 12:09:46 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_philo	*init_philo(t_args *args)
 	{
 		philo[i].idx = i + 1;
 		philo[i].nbr_meal = 0;
-		philo[i].last_meal = get_timestamp();
+		philo[i].last_meal = args->start_time;
 		philo[i].i = i;
 		philo[i].args = args;
 		i++;
@@ -54,13 +54,13 @@ int	init_args(t_args *args, char **argv, int nb_args)
 	args->nbr_p = ft_atoi(argv[0]);
 	if (args->nbr_p < 1 && args->nbr_p > 300)
 		return (1);
-	args->time_to_die = ft_atoi(argv[1]) * 1000;
+	args->time_to_die = ft_atoi(argv[1]);
 	if (args->time_to_die < 1)
 		return (1);
-	args->time_to_eat = ft_atoi(argv[2]) * 1000;
+	args->time_to_eat = ft_atoi(argv[2]);
 	if (args->time_to_eat < 1)
 		return (1);
-	args->time_to_sleep = ft_atoi(argv[3]) * 1000;
+	args->time_to_sleep = ft_atoi(argv[3]);
 	if (args->time_to_sleep < 1)
 		return (1);
 	if (nb_args == 6)
