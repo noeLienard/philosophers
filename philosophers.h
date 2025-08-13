@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/12 12:58:18 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/13 13:39:10 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,5 @@ void				*ft_monitoring(void *args);
 int					ft_atoi(char *str);
 int					printf_action(int timestamp, int number_philo, char *str);
 int					get_timestamp(void);
-
+int					unlock_mutex(t_philo *philo, int i);
 #endif
