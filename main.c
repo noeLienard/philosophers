@@ -6,11 +6,12 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/13 12:09:46 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/13 14:38:55 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
 pthread_mutex_t	*init_fork(int nbr_p)
 {
 	pthread_mutex_t	*mtx_fork;
@@ -71,30 +72,9 @@ int	init_args(t_args *args, char **argv, int nb_args)
 	}
 	args->mtx_fork = init_fork(args->nbr_p);
 	if (!args->mtx_fork)
-		return (0);
+		return (1);
 	pthread_mutex_init(&args->mtx_print, NULL);
-	args->start_time = 0;
-	args->ready_odd = 0;
-	args->philo_died = 0;
-	args->eat_enough = 0;
-	args->nbr_args = nb_args;
 	return (0);
-}
-int free_and_destroy_all_mutex(t_args *args, t_philo *philo)
-{
-	int i;
-
-	i = 0;
-	while (i < args->nbr_p)
-	{
-		if (pthread_mutex_destroy(&args->mtx_fork[i]) != 0)
-			return (0);
-		i++;
-	}
-	pthread_mutex_destroy(&args->mtx_print);
-	free(philo);
-	free(args->mtx_fork);
-	return(1);
 }
 
 void	create_threads(t_philo *philo, t_args *args)
@@ -134,6 +114,11 @@ int	main(int argc, char **argv)
 		return (printf("Invalid number of arguments\n"), 1);
 	if (init_args(&args, &argv[1], argc) == 1)
 		return (printf("Invalid arguments\n"), 1);
+	args.start_time = 0;
+	args.ready_odd = 0;
+	args.philo_died = 0;
+	args.eat_enough = 0;
+	args.nbr_args = argc;
 	philo = init_philo(&args);
 	create_threads(philo, &args);
 	return (0);

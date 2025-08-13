@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:12:43 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/13 14:05:49 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/13 14:40:57 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_atoi(char *str)
 {
 	int	i;
-	int		res;
+	int	res;
 
 	i = 0;
 	res = 0;
@@ -31,7 +31,6 @@ int	ft_atoi(char *str)
 	return (res);
 }
 
-
 int	printf_action(int timestamp, int number_philo, char *str)
 {
 	if (printf("%dms %d %s\n", timestamp, number_philo, str) == -1)
@@ -39,23 +38,40 @@ int	printf_action(int timestamp, int number_philo, char *str)
 	return (0);
 }
 
-int get_timestamp()
+int	get_timestamp(void)
 {
-	struct timeval tv;
-	
+	struct timeval	tv;
+
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-int unlock_mutex(t_philo *philo, int i, int j)
+int	unlock_mutex(t_philo *philo, int i, int j)
 {
 	if (pthread_mutex_unlock(&philo->args->mtx_fork[i]) != 0)
 		return (1);
 	if (j == 1)
 	{
 		if (pthread_mutex_unlock(&philo->args->mtx_fork[(i + 1)
-			% philo->args->nbr_p]) != 0)
+					% philo->args->nbr_p]) != 0)
 			return (1);
 	}
+	return (1);
+}
+
+int	free_and_destroy_all_mutex(t_args *args, t_philo *philo)
+{
+	int		i;
+
+	i = 0;
+	while (i < args->nbr_p)
+	{
+		if (pthread_mutex_destroy(&args->mtx_fork[i]) != 0)
+			return (0);
+		i++;
+	}
+	pthread_mutex_destroy(&args->mtx_print);
+	free(philo);
+	free(args->mtx_fork);
 	return (1);
 }

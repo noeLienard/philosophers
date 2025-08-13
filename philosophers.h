@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/13 14:06:42 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/13 14:39:09 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,26 @@ typedef struct s_philo
 int					init_args(t_args *args, char **argv, int nb_args);
 void				*action_routine(void *args);
 
+/* monitor.c */
+void				*ft_monitoring(void *data);
+int					check_someone_died(t_philo *lc_philo, int i);
+
+/* routine.c */
+void				wait_until_end(t_philo *lc_philo, int i);
+void				*action_routine(void *data);
+
 /* action.c */
-void				*action_routine(void *args);
-void				*ft_monitoring(void *args);
+int					take_fork_right(int start_time, t_philo *philo, int i);
+int					take_fork_left(int start_time, t_philo *philo, int i);
+int					is_eating(int start_time, t_philo *philo, int i);
+int					is_sleeping(int start_time, t_philo *philo);
+int					is_thinking(int start_time, t_philo *philo);
 
 /* utils.c */
 int					ft_atoi(char *str);
 int					printf_action(int timestamp, int number_philo, char *str);
 int					get_timestamp(void);
 int					unlock_mutex(t_philo *philo, int i, int j);
+int					free_and_destroy_all_mutex(t_args *args, t_philo *philo);
+
 #endif
