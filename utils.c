@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:12:43 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/13 13:50:28 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/13 14:05:49 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ int get_timestamp()
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-int unlock_mutex(t_philo *philo, int i)
+int unlock_mutex(t_philo *philo, int i, int j)
 {
 	if (pthread_mutex_unlock(&philo->args->mtx_fork[i]) != 0)
 		return (1);
-	if (i == 1)
+	if (j == 1)
 	{
 		if (pthread_mutex_unlock(&philo->args->mtx_fork[(i + 1)
 			% philo->args->nbr_p]) != 0)

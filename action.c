@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:24:52 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/13 13:53:49 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/13 14:16:27 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,63 +19,63 @@ int	take_fork_right(int start_time, t_philo *philo, int i)
 	if (pthread_mutex_lock(&philo->args->mtx_fork[i]) != 0)
 		return (1);
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
-		return (unlock_mutex(philo, 0));
+		return (unlock_mutex(philo, i, 0));
 	if (pthread_mutex_lock(&philo->args->mtx_print) != 0)
-		return (unlock_mutex(philo, 0));
+		return (unlock_mutex(philo, i, 0));
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
-		return (unlock_mutex(philo, 0));
+		return (unlock_mutex(philo, i, 0));
 	printf_action((get_timestamp() - philo->args->start_time), philo->idx,
 		"has taken a fork");
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
-		return (unlock_mutex(philo, 0));
+		return (unlock_mutex(philo, i, 0));
 	if (pthread_mutex_unlock(&philo->args->mtx_print) != 0)
-		return (unlock_mutex(philo, 0));
+		return (unlock_mutex(philo, i, 0));
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
-		return (unlock_mutex(philo, 0));
+		return (unlock_mutex(philo, i, 0));
 	return (0);
 }
 
 int	take_fork_left(int start_time, t_philo *philo, int i)
 {
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
-		return (unlock_mutex(philo, 0));
+		return (unlock_mutex(philo, i, 0));
 	if (pthread_mutex_lock(&philo->args->mtx_fork[(i + 1)
 			% philo->args->nbr_p]) != 0)
-		return (unlock_mutex(philo, 0));
+		return (unlock_mutex(philo, i, 0));
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
-		return (unlock_mutex(philo, 1));
+		return (unlock_mutex(philo, i, 1));
 	if (pthread_mutex_lock(&philo->args->mtx_print) != 0)
-		return (unlock_mutex(philo, 1));
+		return (unlock_mutex(philo, i, 1));
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
-		return (unlock_mutex(philo, 1));
+		return (unlock_mutex(philo, i, 1));
 	printf_action((get_timestamp() - philo->args->start_time), philo->idx,
 		"has taken a fork");
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
-		return (unlock_mutex(philo, 1));
+		return (unlock_mutex(philo, i, 1));
 	if (pthread_mutex_unlock(&philo->args->mtx_print) != 0)
-		return (unlock_mutex(philo, 1));
+		return (unlock_mutex(philo, i, 1));
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
-		return (unlock_mutex(philo, 1));
+		return (unlock_mutex(philo, i, 1));
 	return (0);
 }
 
 int	is_eating(int start_time, t_philo *philo, int i)
 {
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
-		return (unlock_mutex(philo, 1));
+		return (unlock_mutex(philo, i, 1));
 	if (pthread_mutex_lock(&philo->args->mtx_print) != 0)
-		return (unlock_mutex(philo, 1));
+		return (unlock_mutex(philo, i, 1));
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
-		return (unlock_mutex(philo, 1));
+		return (unlock_mutex(philo, i, 1));
 	philo->last_meal = get_timestamp();
 	printf_action((get_timestamp() - philo->args->start_time), philo->idx,
 		"is eating");
 	if (pthread_mutex_unlock(&philo->args->mtx_print) != 0)
-		return (unlock_mutex(philo, 1));
+		return (unlock_mutex(philo, i, 1));
 	usleep(philo->args->time_to_eat * 1000);
 	philo->nbr_meal++;
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
-		return (unlock_mutex(philo, 1));
+		return (unlock_mutex(philo, i, 1));
 	if (pthread_mutex_unlock(&philo->args->mtx_fork[i]) != 0)
 		return (pthread_mutex_unlock(&philo->args->mtx_fork[(i + 1)
 				% philo->args->nbr_p]), 0);
@@ -170,6 +170,7 @@ void	*action_routine(void *data)
 	{
 		while (lc_philo->args->ready_odd == 0)
 			usleep(1000);
+		usleep(1000);
 	}
 	while (lc_philo->args->nbr_p == 1 && lc_philo->args->philo_died == 0)
 		usleep(1000);
@@ -186,6 +187,5 @@ void	*action_routine(void *data)
 		if (is_thinking(lc_philo->args->start_time, lc_philo) == 1)
 			break ;
 	}
-	printf("%d\n", i);
 	return (NULL);
 }
