@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:30:52 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/14 10:22:59 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/14 13:03:26 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ void	*action_routine(void *data)
 	wait_until_end(lc_philo, i);
 	while (lc_philo->args->philo_died == 0 && lc_philo->args->eat_enough == 0)
 	{
-		if (take_fork_right(lc_philo->args->start_time, lc_philo, i) == 1)
+		if (take_fork_right(lc_philo, i) == 1)
 			break ;
-		if (take_fork_left(lc_philo->args->start_time, lc_philo, i) == 1)
+		if (take_fork_left(lc_philo, i) == 1)
 			break ;
-		if (is_eating(lc_philo->args->start_time, lc_philo, i) == 1)
+		if (is_eating(lc_philo, i) == 1)
 			break ;
-		if (is_sleeping(lc_philo->args->start_time, lc_philo) == 1)
+		if (is_sleeping(lc_philo) == 1)
 			break ;
-		if (is_thinking(lc_philo->args->start_time, lc_philo) == 1)
+		if (is_thinking(lc_philo) == 1)
 			break ;
 	}
 	return (NULL);

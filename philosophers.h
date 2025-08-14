@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/13 14:39:09 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/14 13:01:43 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ void				wait_until_end(t_philo *lc_philo, int i);
 void				*action_routine(void *data);
 
 /* action.c */
-int					take_fork_right(int start_time, t_philo *philo, int i);
-int					take_fork_left(int start_time, t_philo *philo, int i);
-int					is_eating(int start_time, t_philo *philo, int i);
-int					is_sleeping(int start_time, t_philo *philo);
-int					is_thinking(int start_time, t_philo *philo);
+int					take_fork_right(t_philo *philo, int i);
+int					take_fork_left(t_philo *philo, int i);
+int					is_eating(t_philo *philo, int i);
+int					is_sleeping(t_philo *philo);
+int					is_thinking(t_philo *philo);
 
 /* utils.c */
 int					ft_atoi(char *str);

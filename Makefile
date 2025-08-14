@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS =
+CFLAGS = -Wall -Werror -Wextra
 
 NAME = philo
 

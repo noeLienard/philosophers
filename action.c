@@ -6,13 +6,13 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 12:24:52 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/13 14:40:05 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/14 13:04:32 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	take_fork_right(int start_time, t_philo *philo, int i)
+int	take_fork_right(t_philo *philo, int i)
 {
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
 		return (1);
@@ -35,7 +35,7 @@ int	take_fork_right(int start_time, t_philo *philo, int i)
 	return (0);
 }
 
-int	take_fork_left(int start_time, t_philo *philo, int i)
+int	take_fork_left(t_philo *philo, int i)
 {
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
 		return (unlock_mutex(philo, i, 0));
@@ -59,7 +59,7 @@ int	take_fork_left(int start_time, t_philo *philo, int i)
 	return (0);
 }
 
-int	is_eating(int start_time, t_philo *philo, int i)
+int	is_eating(t_philo *philo, int i)
 {
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
 		return (unlock_mutex(philo, i, 1));
@@ -85,7 +85,7 @@ int	is_eating(int start_time, t_philo *philo, int i)
 	return (0);
 }
 
-int	is_sleeping(int start_time, t_philo *philo)
+int	is_sleeping(t_philo *philo)
 {
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
 		return (1);
@@ -93,7 +93,8 @@ int	is_sleeping(int start_time, t_philo *philo)
 		return (1);
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
 		return (1);
-	printf_action((get_timestamp() - start_time), philo->idx, "is sleeping");
+	printf_action((get_timestamp() - philo->args->start_time), philo->idx,
+		"is sleeping");
 	if (pthread_mutex_unlock(&philo->args->mtx_print) != 0)
 		return (1);
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
@@ -102,7 +103,7 @@ int	is_sleeping(int start_time, t_philo *philo)
 	return (0);
 }
 
-int	is_thinking(int start_time, t_philo *philo)
+int	is_thinking(t_philo *philo)
 {
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
 		return (1);
@@ -110,7 +111,8 @@ int	is_thinking(int start_time, t_philo *philo)
 		return (1);
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)
 		return (1);
-	printf_action((get_timestamp() - start_time), philo->idx, "is thinking");
+	printf_action((get_timestamp() - philo->args->start_time), philo->idx,
+		"is thinking");
 	if (pthread_mutex_unlock(&philo->args->mtx_print) != 0)
 		return (1);
 	if (philo->args->philo_died == 1 || philo->args->eat_enough == 1)

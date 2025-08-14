@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/14 10:29:22 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/14 13:01:05 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_philo	*init_philo(t_args *args)
 int	init_args(t_args *args, char **argv, int nb_args)
 {
 	args->nbr_p = ft_atoi(argv[0]);
-	if (args->nbr_p < 1 && args->nbr_p > 300)
+	if (args->nbr_p < 1 || args->nbr_p > 300)
 		return (1);
 	args->time_to_die = ft_atoi(argv[1]);
 	if (args->time_to_die < 1)
