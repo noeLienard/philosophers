@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:07:24 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/13 14:38:55 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/14 10:29:22 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	init_args(t_args *args, char **argv, int nb_args)
 		if (args->must_eat < 1)
 			return (1);
 	}
+	else
+		args->must_eat = 0;
 	args->mtx_fork = init_fork(args->nbr_p);
 	if (!args->mtx_fork)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:27:59 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/13 14:41:07 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/14 10:30:12 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	*ft_monitoring(void *data)
 		{
 			if (check_someone_died(lc_philo, i) == 0)
 				return (NULL);
-			if (lc_philo[i].nbr_meal >= lc_philo->args->must_eat)
+			if (lc_philo->args->must_eat != 0
+				&& lc_philo[i].nbr_meal >= lc_philo->args->must_eat)
 				j++;
 			i++;
 		}
