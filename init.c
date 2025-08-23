@@ -30,6 +30,26 @@ pthread_mutex_t	*init_fork(int nbr_p)
 	return (mtx_fork);
 }
 
+#include "philosophers.h"
+
+void assign_forks(t_philo *philo)
+{
+    int left = philo->i;
+    int right = (philo->i + 1) % philo->args->nbr_p;
+
+    if (philo->i % 2)
+    {
+        philo->fork[0] = right;
+        philo->fork[1] = left;
+    }
+    else
+    {
+        philo->fork[0] = left;
+        philo->fork[1] = right;
+    }
+}
+
+
 t_philo	*init_philo(t_args *args)
 {
 	int		i;
@@ -46,6 +66,7 @@ t_philo	*init_philo(t_args *args)
 		philo[i].last_meal = args->start_time;
 		philo[i].i = i;
 		philo[i].args = args;
+		assign_forks(&philo[i]);
 		if (pthread_mutex_init(&philo[i].mtx_meal, NULL) != 0)
 			free(philo);
 		i++;

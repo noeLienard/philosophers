@@ -44,6 +44,7 @@ typedef struct s_philo
 	int				nbr_meal;
 	int				idx;
 	int				i;
+	int 			fork[2];
 	t_args			*args;
 	pthread_mutex_t	mtx_meal;
 }					t_philo;

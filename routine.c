@@ -30,31 +30,21 @@ int	one_philosopher(t_philo *lc_philo)
 	return (0);
 }
 
-int	choose_fork_and_eat(t_philo *philo, int i)
+int	choose_fork_and_eat(t_philo *philo)
 {
-	int	first;
-	int	second;
-
-	first = i;
-	second = (i + 1) % philo->args->nbr_p;
-
-	if (i == philo->args->nbr_p - 1)
-	{
-		if (take_fork(philo, second) == 1)
-			return (1);
-		if (take_fork(philo, first) == 1)
-			return (unlock_mutex_fork(philo, second, first));
-	}
-	else
-	{
-		if (take_fork(philo, first) == 1)
-			return (pthread_mutex_unlock(&philo->args->mtx_fork[first]), 1);
-		if (take_fork(philo, second) == 1)
-			return (unlock_mutex_fork(philo, first, second));
-	}
+	if (pthread_mutex_lock(&philo->args->mtx_fork[philo->fork[0]]) != 0)
+		return (1);
+	if (printf_action(philo, (get_timestamp() - philo->args->start_time), philo->idx,
+		"has taken a fork") == 1)
+		return ();
+	if (pthread_mutex_lock(&philo->args->mtx_fork[philo->fork[1]]) != 0)
+		return (1);
+	if (printf_action(philo, (get_timestamp() - philo->args->start_time), philo->idx,
+		"has taken a fork") == 1)
+		return (1);
 	if (is_eating(philo) == 1)
-		return (unlock_mutex_fork(philo, first, second));
-	return (unlock_mutex_fork(philo, first, second), 0);
+		return (unlock_mutex_fork(philo, philo->fork[0], philo->fork[1]));
+	return (unlock_mutex_fork(philo, philo->fork[0], philo->fork[1]), 0);
 }
 
 void	*action_routine(void *data)
@@ -70,7 +60,7 @@ void	*action_routine(void *data)
 		usleep(1000);
 	while (check_died(lc_philo) == 0)
 	{
-		if (choose_fork_and_eat(lc_philo, i) == 1)
+		if (choose_fork_and_eat(lc_philo) == 1)
 			return (NULL); ;
 		if (printf_action(lc_philo, (get_timestamp()
 					- lc_philo->args->start_time), lc_philo->idx,
