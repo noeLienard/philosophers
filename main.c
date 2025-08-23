@@ -58,8 +58,6 @@ int	main(int argc, char **argv)
 		return (printf("Invalid number of arguments\n"), 1);
 	if (init_all(&args, &argv[1], argc) == 1)
 		return (printf("Invalid arguments\n"), 1);
-	args.start_time = 0;
-	args.ready_odd = 0;
 	args.philo_died = 0;
 	args.eat_enough = 0;
 	args.nbr_args = argc;

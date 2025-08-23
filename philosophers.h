@@ -35,7 +35,6 @@ typedef struct s_args
 	int				philo_died;
 	int				nbr_args;
 	pthread_mutex_t	*mtx_fork;
-	pthread_mutex_t	mtx_print;
 	pthread_mutex_t	mtx_state;
 }					t_args;
 
