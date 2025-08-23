@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
+/*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 13:04:51 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/23 19:06:23 by noelienard       ###   ########.fr       */
+/*   Updated: 2025/08/23 21:40:14 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,10 @@ typedef struct s_philo
 	int				nbr_meal;
 	int				idx;
 	int				i;
-	int 			fork[2];
+	int				fork[2];
 	t_args			*args;
 	pthread_mutex_t	mtx_meal;
 }					t_philo;
-
-void precise_usleep(long duration_ms);
 
 /* main.c */
 int					unlock_mutex_fork(t_philo *philo, int fork1, int fork2);
@@ -68,13 +66,10 @@ int					check_each_philo(t_philo *lc_philo, int i, int j);
 
 /* routine.c */
 void				*action_routine(void *data);
-
-/* action.c */
-int					take_fork(t_philo *philo, int fork);
+void				p_usleep(long time);
 
 /* action2.c */
 int					check_died(t_philo *philo);
-int					is_eating(t_philo *philo);
 
 /* utils.c */
 int					ft_atoi(char *str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
+/*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:30:52 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/23 19:04:31 by noelienard       ###   ########.fr       */
+/*   Updated: 2025/08/23 21:37:55 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,28 @@ int	choose_fork_and_eat(t_philo *philo)
 {
 	if (pthread_mutex_lock(&philo->args->mtx_fork[philo->fork[0]]) != 0)
 		return (1);
-	if (printf_action(philo, (get_timestamp() - philo->args->start_time), philo->idx,
-		"has taken a fork") == 1)
-		return (pthread_mutex_unlock(&philo->args->mtx_fork[philo->fork[0]]), 1);
+	if (printf_action(philo, (get_timestamp() - philo->args->start_time),
+			philo->idx, "has taken a fork") == 1)
+		return (pthread_mutex_unlock(&philo->args->mtx_fork[philo->fork[0]]),
+			1);
 	if (pthread_mutex_lock(&philo->args->mtx_fork[philo->fork[1]]) != 0)
-		return (pthread_mutex_unlock(&philo->args->mtx_fork[philo->fork[0]]), 1);
-	if (printf_action(philo, (get_timestamp() - philo->args->start_time), philo->idx,
-		"has taken a fork") == 1)
+		return (pthread_mutex_unlock(&philo->args->mtx_fork[philo->fork[0]]),
+			1);
+	if (printf_action(philo, (get_timestamp() - philo->args->start_time),
+			philo->idx, "has taken a fork") == 1)
 		return (unlock_mutex_fork(philo, philo->fork[0], philo->fork[1]));
-	if (is_eating(philo) == 1)
+	p_usleep(philo->args->time_to_eat);
+	if (printf_action(philo, (get_timestamp() - philo->args->start_time),
+			philo->idx, "is eating") == 1)
 		return (unlock_mutex_fork(philo, philo->fork[0], philo->fork[1]));
-	return (unlock_mutex_fork(philo, philo->fork[0], philo->fork[1]), 0);
+	if (pthread_mutex_lock(&philo->mtx_meal) != 0)
+		return (1);
+	philo->last_meal = get_timestamp();
+	philo->nbr_meal++;
+	if (pthread_mutex_unlock(&philo->mtx_meal) != 0)
+		return (1);
+	unlock_mutex_fork(philo, philo->fork[0], philo->fork[1]);
+	return (0);
 }
 
 void	*action_routine(void *data)
@@ -57,16 +68,16 @@ void	*action_routine(void *data)
 	if (one_philosopher(lc_philo) == 1)
 		return (NULL);
 	if (i % 2 == 1)
-		usleep(1000);
+		usleep(500);
 	while (check_died(lc_philo) == 0)
 	{
 		if (choose_fork_and_eat(lc_philo) == 1)
-			return (NULL); ;
+			return (NULL);
 		if (printf_action(lc_philo, (get_timestamp()
 					- lc_philo->args->start_time), lc_philo->idx,
 				"is sleeping") == 1)
 			return (NULL);
-		precise_usleep(lc_philo->args->time_to_sleep);
+		p_usleep(lc_philo->args->time_to_sleep);
 		if (printf_action(lc_philo, (get_timestamp()
 					- lc_philo->args->start_time), lc_philo->idx,
 				"is thinking") == 1)
