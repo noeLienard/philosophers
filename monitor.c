@@ -6,7 +6,7 @@
 /*   By: nlienard <nlienard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:27:59 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/22 17:43:15 by nlienard         ###   ########.fr       */
+/*   Updated: 2025/08/23 21:53:40 by nlienard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	check_someone_died(t_philo *lc_philo, int i)
 		if (printf("%dms %d %s\n", get_timestamp()
 				- lc_philo[i].args->start_time, i + 1, "died") == -1)
 			return (pthread_mutex_unlock(&lc_philo->args->mtx_print), 1);
+		usleep(200);
 		if (pthread_mutex_unlock(&lc_philo->args->mtx_print) != 0)
 			return (0);
 		return (0);
