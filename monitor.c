@@ -28,9 +28,13 @@ int	check_someone_died(t_philo *lc_philo, int i)
 		lc_philo->args->philo_died = 1;
 		if (pthread_mutex_unlock(&lc_philo[i].args->mtx_state) != 0)
 			return (0);
+		if (pthread_mutex_lock(&lc_philo->args->mtx_print) != 0)
+			return (0);
 		if (printf("%dms %d %s\n", get_timestamp()
 				- lc_philo[i].args->start_time, i + 1, "died") == -1)
 			return (pthread_mutex_unlock(&lc_philo->args->mtx_print), 1);
+		if (pthread_mutex_unlock(&lc_philo->args->mtx_print) != 0)
+			return (0);
 		return (0);
 	}
 	if (pthread_mutex_unlock(&lc_philo[i].mtx_meal) != 0)

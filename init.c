@@ -85,6 +85,8 @@ int	init_all(t_args *args, char **argv, int nb_args)
 	args->mtx_fork = init_fork(args->nbr_p);
 	if (!args->mtx_fork)
 		return (1);
+	if (pthread_mutex_init(&args->mtx_print, NULL) != 0)
+		return (free(args->mtx_fork), 1);
 	if (pthread_mutex_init(&args->mtx_state, NULL) != 0)
 		return (free(args->mtx_fork), 1);
 	return (0);

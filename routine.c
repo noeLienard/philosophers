@@ -37,6 +37,7 @@ int	choose_fork_and_eat(t_philo *philo, int i)
 
 	first = i;
 	second = (i + 1) % philo->args->nbr_p;
+
 	if (i == philo->args->nbr_p - 1)
 	{
 		if (take_fork(philo, second) == 1)

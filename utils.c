@@ -35,7 +35,11 @@ int	printf_action(t_philo *philo, int timestamp, int number_philo, char *str)
 {
 	if (check_died(philo) == 1)
 		return (1);
+	if (pthread_mutex_lock(&philo->args->mtx_print) != 0)
+		return (1);
 	if (printf("%dms %d %s\n", timestamp, number_philo, str) == -1)
+		return (pthread_mutex_unlock(&philo->args->mtx_print), 1);
+	if (pthread_mutex_unlock(&philo->args->mtx_print) != 0)
 		return (1);
 	return (0);
 }
@@ -59,6 +63,7 @@ int	free_and_destroy_all_mutex(t_args *args, t_philo *philo)
 		pthread_mutex_destroy(&philo[i].mtx_meal);
 		i++;
 	}
+	pthread_mutex_destroy(&args->mtx_print);
 	pthread_mutex_destroy(&args->mtx_state);
 	free(philo);
 	free(args->mtx_fork);
