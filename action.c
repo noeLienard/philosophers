@@ -12,6 +12,13 @@
 
 #include "philosophers.h"
 
+void precise_usleep(long duration_ms)
+{
+    long start = get_timestamp();
+    while (get_timestamp() - start < duration_ms)
+        usleep(50);
+}
+
 int	check_died(t_philo *philo)
 {
 	if (pthread_mutex_lock(&philo->args->mtx_state) != 0)
@@ -38,7 +45,7 @@ int	is_eating(t_philo *philo)
 	if (printf_action(philo, (get_timestamp() - philo->args->start_time), philo->idx,
 		"is eating") == 1)
 		return (1);
-	usleep(philo->args->time_to_eat * 1000);
+	precise_usleep(philo->args->time_to_eat);
 	if (pthread_mutex_lock(&philo->mtx_meal) != 0)
 		return (1);
 	philo->last_meal = get_timestamp();

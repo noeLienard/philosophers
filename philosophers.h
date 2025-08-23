@@ -49,6 +49,8 @@ typedef struct s_philo
 	pthread_mutex_t	mtx_meal;
 }					t_philo;
 
+void precise_usleep(long duration_ms);
+
 /* main.c */
 int					unlock_mutex_fork(t_philo *philo, int fork1, int fork2);
 void				create_threads(t_philo *philo, t_args *args);

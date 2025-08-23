@@ -37,20 +37,20 @@ int	choose_fork_and_eat(t_philo *philo, int i)
 
 	first = i;
 	second = (i + 1) % philo->args->nbr_p;
-	// if (i == philo->args->nbr_p - 1)
-	// {
-	// 	if (take_fork(philo, second) == 1)
-	// 		return (1);
-	// 	if (take_fork(philo, first) == 1)
-	// 		return (unlock_mutex_fork(philo, second, first));
-	// }
-	// else
-	// {
+	if (i == philo->args->nbr_p - 1)
+	{
+		if (take_fork(philo, second) == 1)
+			return (1);
+		if (take_fork(philo, first) == 1)
+			return (unlock_mutex_fork(philo, second, first));
+	}
+	else
+	{
 		if (take_fork(philo, first) == 1)
 			return (pthread_mutex_unlock(&philo->args->mtx_fork[first]), 1);
 		if (take_fork(philo, second) == 1)
 			return (unlock_mutex_fork(philo, first, second));
-	// }
+	}
 	if (is_eating(philo) == 1)
 		return (unlock_mutex_fork(philo, first, second));
 	return (unlock_mutex_fork(philo, first, second), 0);
@@ -75,7 +75,7 @@ void	*action_routine(void *data)
 					- lc_philo->args->start_time), lc_philo->idx,
 				"is sleeping") == 1)
 			return (NULL);
-		usleep(lc_philo->args->time_to_sleep * 1000);
+		precise_usleep(lc_philo->args->time_to_sleep);
 		if (printf_action(lc_philo, (get_timestamp()
 					- lc_philo->args->start_time), lc_philo->idx,
 				"is thinking") == 1)
