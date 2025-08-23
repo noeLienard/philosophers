@@ -6,7 +6,7 @@
 /*   By: noelienard <noelienard@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:30:52 by nlienard          #+#    #+#             */
-/*   Updated: 2025/08/23 17:25:10 by noelienard       ###   ########.fr       */
+/*   Updated: 2025/08/23 19:04:31 by noelienard       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ int	choose_fork_and_eat(t_philo *philo)
 		return (1);
 	if (printf_action(philo, (get_timestamp() - philo->args->start_time), philo->idx,
 		"has taken a fork") == 1)
-		return ();
+		return (pthread_mutex_unlock(&philo->args->mtx_fork[philo->fork[0]]), 1);
 	if (pthread_mutex_lock(&philo->args->mtx_fork[philo->fork[1]]) != 0)
-		return (1);
+		return (pthread_mutex_unlock(&philo->args->mtx_fork[philo->fork[0]]), 1);
 	if (printf_action(philo, (get_timestamp() - philo->args->start_time), philo->idx,
 		"has taken a fork") == 1)
-		return (1);
+		return (unlock_mutex_fork(philo, philo->fork[0], philo->fork[1]));
 	if (is_eating(philo) == 1)
 		return (unlock_mutex_fork(philo, philo->fork[0], philo->fork[1]));
 	return (unlock_mutex_fork(philo, philo->fork[0], philo->fork[1]), 0);
